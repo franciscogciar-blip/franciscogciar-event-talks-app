@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Talks 2026</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        header {
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #1a73e8;
+        }
+        header p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 1.1em;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #search-input {
+            width: 60%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        #search-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+        .schedule {
+            list-style: none;
+            padding: 0;
+        }
+        .schedule-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .schedule-item.talk {
+            border-left: 5px solid #1a73e8;
+            background-color: #ffffff;
+        }
+        .schedule-item.break {
+            border-left: 5px solid #999;
+            background-color: #f9f9f9;
+            align-items: center;
+        }
+        .schedule-item.hidden {
+            display: none;
+        }
+        .time {
+            flex: 0 0 120px;
+            font-weight: bold;
+            color: #1a73e8;
+            font-size: 1.1em;
+        }
+        .details {
+            flex: 1;
+        }
+        .details h3 {
+            margin: 0 0 10px;
+            font-size: 1.4em;
+        }
+        .speakers {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .description {
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .categories {
+            margin-top: 10px;
+        }
+        .category {
+            display: inline-block;
+            background-color: #e8f0fe;
+            color: #1a73e8;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-right: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Tech Talks 2026</h1>
+            <p>A One-Day Virtual Summit for Developers</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search by category (e.g., AI, Cloud)...">
+        </div>
+
+        <ul class="schedule" id="schedule-list">
+            <!-- Schedule items will be dynamically inserted here -->
+        </ul>
+
+        <footer>
+            <p>&copy; 2026 Tech Talks. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const talks = [
+            {
+                title: "The Future of AI: Beyond Large Language Models",
+                speakers: ["Dr. Evelyn Reed"],
+                categories: ["AI", "Machine Learning", "Future Tech"],
+                duration: 60,
+                description: "A deep dive into the next generation of artificial intelligence, exploring novel architectures and their potential impact on society."
+            },
+            {
+                title: "Modern Web Development with Serverless Architectures",
+                speakers: ["Alex Chen", "Ben Carter"],
+                categories: ["Web Dev", "Cloud", "Serverless"],
+                duration: 60,
+                description: "Learn how to build scalable, cost-effective web applications using serverless technologies and modern frontend frameworks."
+            },
+            {
+                title: "Cybersecurity in a Quantum World",
+                speakers: ["Dr. Isaac Vance"],
+                categories: ["Cybersecurity", "Quantum Computing"],
+                duration: 60,
+                description: "An overview of the threats quantum computing poses to current encryption standards and the race to develop quantum-resistant cryptography."
+            },
+            {
+                title: "Building Sustainable and Green Software",
+                speakers: ["Maria Rodriguez"],
+                categories: ["Green Tech", "Software Engineering", "Cloud"],
+                duration: 60,
+                description: "Explore principles and practices for developing software that is not only efficient but also environmentally friendly."
+            },
+            {
+                title: "The Rise of WASM: High-Performance in the Browser",
+                speakers: ["Kenji Tanaka"],
+                categories: ["Web Dev", "WASM", "Performance"],
+                duration: 60,
+                description: "Discover how WebAssembly is unlocking near-native performance for web applications, with practical examples and use cases."
+            },
+            {
+                title: "Ethical AI: Navigating the New Frontier of Responsibility",
+                speakers: ["Jasmine Patel", "Leo Kim"],
+                categories: ["AI", "Ethics"],
+                duration: 60,
+                description: "A critical discussion on the ethical challenges presented by AI and frameworks for building more responsible and equitable systems."
+            }
+        ];
+
+        const scheduleConfig = {
+            startTime: 10 * 60, // 10:00 AM in minutes
+            talkDuration: 60,
+            transitionTime: 10,
+            lunchBreakTime: 60,
+            lunchAfterTalk: 3 // Lunch break after the 3rd talk
+        };
+
+        function formatTime(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+        }
+
+        function generateSchedule() {
+            const scheduleList = document.getElementById('schedule-list');
+            let currentTime = scheduleConfig.startTime;
+            let talkIndex = 0;
+
+            while(talkIndex < talks.length) {
+                // Add Talk
+                const talk = talks[talkIndex];
+                const talkEndTime = currentTime + scheduleConfig.talkDuration;
+                scheduleList.innerHTML += `
+                    <li class="schedule-item talk" data-categories="${talk.categories.join(',').toLowerCase()}">
+                        <div class="time">${formatTime(currentTime)} - ${formatTime(talkEndTime)}</div>
+                        <div class="details">
+                            <h3>${talk.title}</h3>
+                            <div class="speakers">By: ${talk.speakers.join(', ')}</div>
+                            <div class="description">${talk.description}</div>
+                            <div class="categories">
+                                ${talk.categories.map(cat => `<span class="category">${cat}</span>`).join('')}
+                            </div>
+                        </div>
+                    </li>
+                `;
+                currentTime = talkEndTime;
+                talkIndex++;
+
+                // Add Lunch Break
+                if (talkIndex === scheduleConfig.lunchAfterTalk) {
+                    const lunchEndTime = currentTime + scheduleConfig.lunchBreakTime;
+                    scheduleList.innerHTML += `
+                        <li class="schedule-item break">
+                            <div class="time">${formatTime(currentTime)} - ${formatTime(lunchEndTime)}</div>
+                            <div class="details">
+                                <h3>Lunch Break</h3>
+                            </div>
+                        </li>
+                    `;
+                    currentTime = lunchEndTime;
+                } 
+                // Add Transition Break
+                else if (talkIndex < talks.length) {
+                    const breakEndTime = currentTime + scheduleConfig.transitionTime;
+                    scheduleList.innerHTML += `
+                        <li class="schedule-item break">
+                            <div class="time">${formatTime(currentTime)} - ${formatTime(breakEndTime)}</div>
+                            <div class="details">
+                                <h3>Transition</h3>
+                            </div>
+                        </li>
+                    `;
+                    currentTime = breakEndTime;
+                }
+            }
+        }
+
+        function filterTalks() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const allTalks = document.querySelectorAll('.schedule-item.talk');
+
+            allTalks.forEach(talkElement => {
+                const categories = talkElement.dataset.categories;
+                if (query === '' || categories.includes(query)) {
+                    talkElement.classList.remove('hidden');
+                } else {
+                    talkElement.classList.add('hidden');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateSchedule();
+            document.getElementById('search-input').addEventListener('input', filterTalks);
+        });
+
+    </script>
+</body>
+</html>
